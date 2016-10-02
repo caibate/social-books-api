@@ -3,6 +3,8 @@ package com.socialbooks.api.entity;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 public class Livro {
 	
@@ -10,14 +12,21 @@ public class Livro {
 		super();
 		this.nome = nome;
 	}
-	private Long id;
-	private String nome;
-	private Date publicacao;
-	private String editora;
-	private String resumo;
-	private List<Comentario> listComentarios;
-	private String autor;
 	
+	@JsonInclude(Include.NON_NULL)
+	private Long id;
+	@JsonInclude(Include.NON_NULL)
+	private String nome;
+	@JsonInclude(Include.NON_NULL)
+	private Date publicacao;
+	@JsonInclude(Include.NON_NULL)
+	private String editora;
+	@JsonInclude(Include.NON_NULL)
+	private String resumo;
+	@JsonInclude(Include.NON_NULL)
+	private List<Comentario> listComentarios;
+	@JsonInclude(Include.NON_NULL)
+	private String autor;
 	
 	public Long getId() {
 		return id;
