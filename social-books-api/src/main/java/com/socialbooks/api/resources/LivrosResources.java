@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.socialbooks.api.entity.Comentario;
 import com.socialbooks.api.entity.Livro;
 import com.socialbooks.api.services.LivrosService;
-import com.socialbooks.api.services.exceptions.LivroNaoEncontradoException;
 
 @RestController
 @RequestMapping("/livros")
@@ -44,14 +44,25 @@ public class LivrosResources {
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
-	public ResponseEntity<?> deletar(@PathVariable("id") Long id){
+	public ResponseEntity<Void> deletar(@PathVariable("id") Long id){
 		livroService.deletar(id);
 		return ResponseEntity.noContent().build();
 	}
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
-	public ResponseEntity<?> atualizar(@PathVariable("id") Long id, @RequestBody Livro livro){
+	public ResponseEntity<Void> atualizar(@PathVariable("id") Long id, @RequestBody Livro livro){
 		livro.setId(id);
 		livroService.atualizar(livro);
 		return ResponseEntity.noContent().build();
+	}
+	
+	@RequestMapping(value="/{id}/comentarios", method=RequestMethod.POST)
+	public ResponseEntity<Void> adicionarComentario(@PathVariable("id") Long livroId,
+									@RequestBody Comentario comentario){
+		livroService.salvarComentario(livroId, comentario);
+		URI uri = ServletUriComponentsBuilder.
+				fromCurrentRequest().
+				build().toUri();
+		return ResponseEntity.created(uri).build();
+		
 	}
 }

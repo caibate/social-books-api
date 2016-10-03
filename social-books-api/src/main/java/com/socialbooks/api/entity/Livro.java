@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -27,7 +29,7 @@ public class Livro {
 	@JsonInclude(Include.NON_NULL)
 	private String resumo;
 	@JsonInclude(Include.NON_NULL)
-	@Transient
+	@OneToMany(mappedBy= "livro")
 	private List<Comentario> listComentarios;
 	@JsonInclude(Include.NON_NULL)
 	private String autor;
