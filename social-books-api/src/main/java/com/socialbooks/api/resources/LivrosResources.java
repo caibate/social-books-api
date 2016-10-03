@@ -1,6 +1,7 @@
 package com.socialbooks.api.resources;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -63,6 +64,11 @@ public class LivrosResources {
 				fromCurrentRequest().
 				build().toUri();
 		return ResponseEntity.created(uri).build();
-		
+	}
+	
+	@RequestMapping(value="/{id}/comentarios", method=RequestMethod.GET)
+	public ResponseEntity<List<Comentario>> listarComentario(@PathVariable("id") Long livroId){
+		 List<Comentario> listarComentario=livroService.listarComentario(livroId);
+		return ResponseEntity.status(HttpStatus.OK).body(listarComentario);
 	}
 }
