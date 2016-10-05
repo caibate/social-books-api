@@ -9,14 +9,21 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @Entity
 public class Autor {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
+	@JsonInclude(Include.NON_NULL)
 	private String nome;
+	@JsonInclude(Include.NON_NULL)
+	@JsonFormat(pattern = "dd/MM/yyy")
 	private Date nascimento;
+	@JsonInclude(Include.NON_NULL)
 	private String nascionalidade;
 	@OneToMany(mappedBy="autor")
 	@JsonIgnore

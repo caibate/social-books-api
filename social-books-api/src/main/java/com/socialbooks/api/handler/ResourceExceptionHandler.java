@@ -2,6 +2,7 @@ package com.socialbooks.api.handler;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -44,5 +45,16 @@ public class ResourceExceptionHandler {
 		detalhesErro.setMensagemDesenvolvedor("http://erros.socialbooks.com/404");
 		detalhesErro.setTimestamp(System.currentTimeMillis());
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(detalhesErro);
+	}
+	
+	@ExceptionHandler(DataIntegrityViolationException.class)
+	public ResponseEntity<DetalhesErro> handleDataIntegrityViolation
+	(DataIntegrityViolationException e, HttpServletRequest httpServletRequest){
+		DetalhesErro detalhesErro = new DetalhesErro();
+		detalhesErro.setStatus(404l);
+		detalhesErro.setTitulo("Integridade violada.");
+		detalhesErro.setMensagemDesenvolvedor("http://erros.socialbooks.com/400");
+		detalhesErro.setTimestamp(System.currentTimeMillis());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(detalhesErro);
 	}
 }
