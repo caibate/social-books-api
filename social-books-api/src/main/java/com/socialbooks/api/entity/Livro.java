@@ -10,6 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -22,6 +26,7 @@ public class Livro {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@JsonInclude(Include.NON_NULL)
+	@NotBlank
 	private String nome;
 	@JsonInclude(Include.NON_NULL)
 	@JsonFormat(pattern = "dd/MM/yyy")
@@ -29,6 +34,8 @@ public class Livro {
 	@JsonInclude(Include.NON_NULL)
 	private String editora;
 	@JsonInclude(Include.NON_NULL)
+	@NotNull(message="Resumo deve ser preenchido")
+	@Size(max= 100, message="Resumo nao pode ter mais q 100 caracteres")
 	private String resumo;
 	@JsonInclude(Include.NON_EMPTY)
 	@OneToMany(mappedBy= "livro")

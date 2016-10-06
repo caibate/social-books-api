@@ -9,10 +9,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @Entity
@@ -21,6 +25,9 @@ public class Comentario {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@JsonInclude(Include.NON_NULL)
+	@NotEmpty(message="Não pode ser vazio")
+	@Size(max=5, min=5, message="Comentario deve ter 5 caracteres")
+	@JsonProperty(value="comentario")
 	private String texto;
 	@JsonInclude(Include.NON_NULL)
 	private String usuario;

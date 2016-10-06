@@ -3,6 +3,8 @@ package com.socialbooks.api.resources;
 import java.net.URI;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +32,7 @@ public class LivrosResources {
 	}
 	
 	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<?> salvar(@RequestBody Livro livro){
+	public ResponseEntity<?> salvar(@Valid @RequestBody Livro livro){
 		Livro l = livroService.salvar(livro);
 		URI uri = ServletUriComponentsBuilder.
 				fromCurrentRequest().path("/{id}").
@@ -50,7 +52,7 @@ public class LivrosResources {
 		return ResponseEntity.noContent().build();
 	}
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
-	public ResponseEntity<Void> atualizar(@PathVariable("id") Long id, @RequestBody Livro livro){
+	public ResponseEntity<Void> atualizar(@PathVariable("id") Long id, @Valid @RequestBody Livro livro){
 		livro.setId(id);
 		livroService.atualizar(livro);
 		return ResponseEntity.noContent().build();
@@ -58,7 +60,7 @@ public class LivrosResources {
 	
 	@RequestMapping(value="/{id}/comentarios", method=RequestMethod.POST)
 	public ResponseEntity<Void> adicionarComentario(@PathVariable("id") Long livroId,
-									@RequestBody Comentario comentario){
+									@RequestBody @Valid Comentario comentario){
 		livroService.salvarComentario(livroId, comentario);
 		URI uri = ServletUriComponentsBuilder.
 				fromCurrentRequest().
