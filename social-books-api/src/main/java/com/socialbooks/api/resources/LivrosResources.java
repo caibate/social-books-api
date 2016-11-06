@@ -1,3 +1,4 @@
+
 package com.socialbooks.api.resources;
 
 import java.net.URI;
@@ -7,11 +8,13 @@ import java.util.concurrent.TimeUnit;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +32,7 @@ public class LivrosResources {
 	
 	@Autowired
 	private LivrosService livroService;
-	
+	@CrossOrigin
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<?> listar(){
 		return ResponseEntity.status(HttpStatus.OK).body(livroService.listarLivro());
@@ -43,11 +46,12 @@ public class LivrosResources {
 				buildAndExpand(l.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
-	
+
+//	@Cacheable(value="livros")
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public ResponseEntity<?> buscar(@PathVariable("id") Long id){
 		Livro l =  livroService.buscar(id);
-		
+//		return ResponseEntity.status(HttpStatus.OK).body(l);
 		CacheControl cacheControl = CacheControl.maxAge(20, TimeUnit.SECONDS);
 		return ResponseEntity.status(HttpStatus.OK).cacheControl(cacheControl).body(l);
 	}
